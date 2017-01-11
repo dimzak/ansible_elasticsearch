@@ -1,0 +1,4 @@
+---
+# tasks file for ansible_elasticsearch
+- name: START
+  shell: echo "START"
