@@ -83,8 +83,9 @@
 
 # generate a heap dump when an allocation from the Java heap fails
 # heap dumps are created in the working directory of the JVM
+{% if elasticsearch_heap_dump_on_oom is defined %}
 -XX:+HeapDumpOnOutOfMemoryError
-
+{% endif %}
 # specify an alternative path for heap dumps
 # ensure the directory exists and has sufficient space
 #-XX:HeapDumpPath=${heap.dump.path}
