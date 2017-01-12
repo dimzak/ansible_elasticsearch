@@ -1,3 +1,6 @@
 ---
 # tasks file for ansible_elasticsearch
 - include: java.yml
+  when: java.install
+
+- include: elasticsearch.yml

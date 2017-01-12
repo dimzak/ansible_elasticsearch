@@ -1,11 +1,9 @@
 - name: Add java repo
-  apt_repository: repo={{ apt_java_repo }} state=present update_cache=yes
-  when: install_java
+  apt_repository: repo={{ java.apt_java_repo }} state=present update_cache=yes
 
 - name: Accept Oracle license prior JDK installation
   debconf: name='oracle-java7-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
-  when: install_java
+
 
 - name: Install Java
-  apt: name={{apt_java_package}} state=present update_cache=yes cache_valid_time={{ apt_cache_valid_time }}
-  when: install_java
+  apt: name={{ java.apt_java_package }} state=present update_cache=yes cache_valid_time={{ java.apt_cache_valid_time }}
