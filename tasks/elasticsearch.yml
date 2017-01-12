@@ -15,3 +15,6 @@
 
 - name: Start Elasticsearch
   service: name=elasticsearch state=started
+
+- name: Check if Elasticsearch is running.
+  wait_for: host={{ elasticsearch_network_host }} port={{ elasticsearch_http_port }} delay=3 timeout=300
