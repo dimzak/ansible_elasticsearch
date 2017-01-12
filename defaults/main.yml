@@ -2,7 +2,13 @@
 # defaults file for ansible_elasticsearch
 
 # ===== Java =====
-java.apt_cache_valid_time: 600 # seconds between "apt-get update" calls.
-java.apt_java_repo: ppa:webupd8team/java
-java.apt_java_package: oracle-java8-installer
-java.install: true
+java_apt_cache_valid_time: 300 # seconds between "apt-get update" calls.
+java_apt_java_repo: ppa:webupd8team/java
+java_apt_java_package: oracle-java8-installer
+java_install: true
+
+# ===== Elasticsearch =====
+elasticsearch_install_url: "https://artifacts.elastic.co/packages/5.x/apt"
+elasticsearch_version: "5.1.1"
+elasticsearch_heap_dump_on_oom: false
+elasticsearch_heap_size: "1G"
