@@ -9,7 +9,7 @@ java_install: true
 
 # ===== Elasticsearch =====
 elasticsearch_install_url: "https://artifacts.elastic.co/packages/5.x/apt"
-elasticsearch_version: "5.1.1"
+elasticsearch_version: "5.1.2"
 elasticsearch_http_port: 9200
 elasticsearch_network_host: "localhost"
 elasticsearch_heap_dump_on_oom: true
