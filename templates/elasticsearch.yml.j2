@@ -21,6 +21,8 @@ cluster.name: {{ elasticsearch_cluster_name }}
 #
 # ------------------------------------ Node ------------------------------------
 #
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html
+#
 # Use a descriptive name for the node:
 #
 # node.name: "Franz Kafka"
@@ -31,6 +33,49 @@ node.name: {{ elasticsearch_node_name }}
 # Add custom attributes to the node:
 #
 #node.attr.rack: r1
+#
+# Master-eligible node
+#
+# A node that has node.master set to true (default),
+# which makes it eligible to be elected as the master node,
+# which controls the cluster.
+#
+{% if elasticsearch_node_master is defined %}
+node.master: {{ elasticsearch_node_master | to_json }}
+{% endif %}
+#
+# Data node
+#
+# A node that has node.data set to true (default).
+# Data nodes hold data and perform data related operations such as CRUD,
+# search, and aggregations.
+#
+{% if elasticsearch_node_data is defined %}
+node.data: {{ elasticsearch_node_data | to_json }}
+{% endif %}
+#
+# Ingest node
+#
+# A node that has node.ingest set to true (default).
+# Ingest nodes are able to apply an ingest pipeline
+# to a document in order to transform and enrich the document before indexing.
+# With a heavy ingest load, it makes sense to use dedicated ingest nodes and
+# to mark the master and data nodes as node.ingest: false.
+#
+{% if elasticsearch_node_ingest is defined %}
+node.ingest: {{ elasticsearch_node_ingest | to_json }}
+{% endif %}
+#
+# Tribe node
+#
+# A tribe node, configured via the tribe.* settings,
+# is a special type of coordinating only node that can connect
+# to multiple clusters and perform search and other operations
+# across all connected clusters.
+#
+{% if elasticsearch_node_tribe is defined %}
+node.tribe: {{ elasticsearch_node_tribe | to_json }}
+{% endif %}
 #
 # ----------------------------------- Paths ------------------------------------
 #
@@ -53,7 +98,7 @@ path.logs: {{ elasticsearch_path_logs }}
 # Lock the memory on startup:
 #
 {% if elasticsearch_bootstrap_mlockall is defined %}
-bootstrap.mlockall: {{ elasticsearch_bootstrap_mlockall }}
+bootstrap.mlockall: {{ elasticsearch_bootstrap_mlockall | to_json }}
 {% endif %}
 #
 # Make sure that the heap size is set to about half the memory available
@@ -94,6 +139,9 @@ discovery.zen.ping.unicast.hosts: {{ elasticsearch_discovery_zen_ping_unicast_ho
 # Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
 #
 #discovery.zen.minimum_master_nodes: 3
+{% if elasticsearch_discovery_zen_minimum_master is defined %}
+discovery.zen.minimum_master_nodes: {{ elasticsearch_discovery_zen_minimum_master }}
+{% endif %}
 #
 # For more information, consult the zen discovery module documentation.
 #
@@ -110,6 +158,9 @@ discovery.zen.ping.unicast.hosts: {{ elasticsearch_discovery_zen_ping_unicast_ho
 # Require explicit names when deleting indices:
 #
 #action.destructive_requires_name: true
+{% if elasticsearch_action_destructive_requires_name is defined %}
+action.destructive_requires_name: {{ elasticsearch_action_destructive_requires_name | to_json }}
+{% endif %}
 #
 # ---------------------------------- Slow Log ----------------------------------
 #
@@ -209,24 +260,24 @@ monitor.jvm.gc.ConcurrentMarkSweep.debug: {{ elasticsearch_monitor_jvm_gc_soncur
 # ---------------------------------- Dynamic Scripting ----------------------------------
 #
 {% if elasticsearch_script_disable_dynamic is defined %}
-script.disable_dynamic: {{ elasticsearch_script_disable_dynamic }}
+script.disable_dynamic: {{ elasticsearch_script_disable_dynamic | to_json }}
 {% endif %}
 
 # Need below for Update by query plugin
 # See also https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting-painless.html
 #script.inline: true
 {% if elasticsearch_script_inline is defined %}
-script.inline: {{ elasticsearch_script_inline }}
+script.inline: {{ elasticsearch_script_inline | to_json }}
 {% endif %}
 #script.update: true
 {% if elasticsearch_script_update is defined %}
-script.update: {{ elasticsearch_script_update }}
+script.update: {{ elasticsearch_script_update | to_json }}
 {% endif %}
 
 # ---------------------------------- CORS Settings ----------------------------------
 
 {% if elasticsearch_http_cors_enabled is defined %}
-http.cors.enabled: {{ elasticsearch_http_cors_enabled }}
+http.cors.enabled: {{ elasticsearch_http_cors_enabled | to_json }}
 {% endif %}
 
 {% if elasticsearch_http_cors_allow_origin is defined %}
